@@ -5,6 +5,7 @@ import { MenuItem, OrderItem } from '../types/MenuTypes'
 export default function useOrder() {
 
     const [order, setOrder] = useState<OrderItem[]>([])
+    const [tip, setTip] = useState(0)
 
     const resetOrder =()=>{
         setOrder([])
@@ -32,12 +33,14 @@ export default function useOrder() {
         }                    
     }
 
-    
+
     return {
         order,
+        tip,
         addItem,
         resetOrder,
-        removeItem
+        removeItem,
+        setTip
     }
 }
 

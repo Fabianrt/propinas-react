@@ -1,16 +1,25 @@
+import { Dispatch } from "react"
 import { useMemo } from "react"
 import { OrderItem } from "../types/MenuTypes"
+import TipsForm from "./TipsForm"
+import { OrderActions } from "../reducers/order-reducer"
 
 type OrderTotalProps={
-    order: OrderItem[]
+    order: OrderItem[],
+    tip: number,
+    dispatch: Dispatch<OrderActions>
 }
 
-const OrderTotal = ({order}:OrderTotalProps) => {
+
+const OrderTotal = ({order, tip, dispatch}:OrderTotalProps) => {
     
     const subTotalAmout= useMemo(()=>{
        return order.reduce((total, item)=> total + (item.item.price*item.quantity),0)
     }, [order])
 
+    const TotalAmout = useMemo(()=>{
+        return (subTotalAmout + subTotalAmout*tip/100)
+    }, [order, tip, subTotalAmout])
 
   return (
     <div>
@@ -19,24 +28,9 @@ const OrderTotal = ({order}:OrderTotalProps) => {
             <span className="font-bold">${subTotalAmout}</span>
         </p>
         <p>Propina:  {'  '} </p>
-            <form className="flex flex-col justify-start mx-5">
-                <div className="flex">
-                    <input name='propina' type="radio" value={20}/><label>20%</label>
-                </div>
-                <div className="flex">
-                    <input name='propina' type="radio" value={15}/><label>15%</label>
-                </div>
-                <div className="flex">
-                    <input name='propina' type="radio" value={10}/><label>10%</label>
-                </div>                
-                <div className="flex">
-                    <input name='propina' type="radio" value={0}/><label>Sin Propina</label>
-                </div>              
-            </form>
-            <span className="font-bold">$0</span>
-       
+            <TipsForm dispatch = {dispatch}/>
         <p>Total:  {'  '}
-            <span className="font-bold">$0</span>
+            <span className="font-bold">${TotalAmout}</span>
         </p>
         <button></button>
     </div>

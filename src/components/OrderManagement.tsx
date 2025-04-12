@@ -1,11 +1,13 @@
+import { Dispatch } from "react"
 import { OrderItem } from "../types/MenuTypes"
+import { OrderActions } from "../reducers/order-reducer"
 
 type OrderManagementProps={
-    order: OrderItem[]
-    removeItem: (id:OrderItem['item']['id'])=>void
+    order: OrderItem[],
+    dispatch: Dispatch<OrderActions>
 }
 
-const OrderManagement = ({order, removeItem}: OrderManagementProps) => {
+const OrderManagement = ({order, dispatch}: OrderManagementProps) => {
   return (
     <div>        
         <div className="space-y-3 mt-5">
@@ -22,7 +24,7 @@ const OrderManagement = ({order, removeItem}: OrderManagementProps) => {
                             <div className="flex items-center justify-end">
                                 <button 
                                     className=" h-8 w-8 border rounded-full bg-red-500 text-white hover:bg-black hover:cursor-pointer"
-                                    onClick={()=>removeItem(data.item.id)}
+                                    onClick={()=>dispatch({type:'remove-item', payload:{id:(data.item.id)}})}
                                 >X</button>
                             </div>
                         </div>             
