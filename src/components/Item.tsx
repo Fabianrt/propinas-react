@@ -1,6 +1,14 @@
 import { Dispatch } from "react"
 import { MenuItem } from "../types/MenuTypes"
 import { OrderActions } from "../reducers/order-reducer"
+import {
+    Card,
+    CardContent,
+    CardDescription,    
+    CardHeader,
+    CardTitle,
+  } from "@/components/ui/card"
+import { Button } from "./ui/button"
 
 type ItemProps = {
     item: MenuItem,
@@ -8,18 +16,25 @@ type ItemProps = {
 }
 
 const Item = ({ item, dispatch}: ItemProps) => {
-    const { name, price } = item
+    const { name, price, img } = item
 
     return (
-        <div
-            className="w-full flex justify-between border-cyan-300 border-2 rounded-sm h-9 items-center px-3 my-2 hover:bg-black hover:text-white hover: cursor-pointer"
-            onClick={() =>{
-                dispatch({type: 'add-item', payload:{item: item}})         
-            }}
+        <Card 
+            className="grid grid-cols-2 my-3"                     
         >
-            <h3 className="font-light">{name}</h3>
-            <h3 className="font-bold">${price}</h3>
-        </div>
+            <CardHeader>
+                <CardTitle>{name}</CardTitle>
+                <CardDescription>Precio: ${price}</CardDescription>
+                <Button
+                    className="hover:bg-cyan-400"
+                    onClick={() =>{
+                        dispatch({type: 'add-item', payload:{item: item}})}}
+                >Agregar</Button>
+            </CardHeader>     
+            <CardContent className="flex items-center justify-center">
+                <img src={img} className="h-50 w-50 object-cover rounded-lg"/>
+            </CardContent>       
+        </Card>
     )
 }
 
